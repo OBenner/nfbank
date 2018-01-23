@@ -64,8 +64,8 @@
                     <th>Client Account: </th>
                     <td><input type="text" name="clientAccount" size="5" value="<c:out value='${client.clientAccount}' />"/></td>
                 </tr>
-                <tr><td colspan="2" align="center"><input type="submit" value="Save" />
-                    </td>
+                <tr>
+                    <td colspan="2" align="center"><input type="submit" value="Save" /></td>
                 </tr>
             </table>
         </form>

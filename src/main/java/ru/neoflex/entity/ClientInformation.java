@@ -13,6 +13,11 @@ public class ClientInformation {
 
 
     public ClientInformation(String name, String lastname, String birth, String password, long clientAccount) {
+        this.name = name;
+        this.lastname = lastname;
+        this.birth = birth;
+        this.password = password;
+        this.clientAccount = clientAccount;
     }
 
     public ClientInformation(long id, String name, String lastname, String birth, String password, long clientAccount) {
