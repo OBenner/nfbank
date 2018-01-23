@@ -24,7 +24,7 @@
 	</center>
     <div align="center">
         <table border="1" cellpadding="5">
-            <caption><h2>List of Books</h2></caption>
+            <caption><h2>Client List</h2></caption>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
