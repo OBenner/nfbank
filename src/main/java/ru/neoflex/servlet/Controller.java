@@ -83,9 +83,9 @@ public class Controller extends HttpServlet {
     private void insertClient(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
 
-        String name = request.getParameter("title");
-        String lastname = request.getParameter("author");
-        String birth = (request.getParameter("price"));
+        String name = request.getParameter("name");
+        String lastname = request.getParameter("lastname");
+        String birth = (request.getParameter("birth"));
         String password = request.getParameter("password");
         long clientAccount = Long.parseLong(request.getParameter("clientAccount"));
         ClientInformation client = new ClientInformation(name, lastname, birth, password, clientAccount);
@@ -97,9 +97,9 @@ public class Controller extends HttpServlet {
             throws SQLException, IOException {
 
         long id = Integer.parseInt(request.getParameter("id"));
-        String name = request.getParameter("title");
-        String lastname = request.getParameter("author");
-        String birth = request.getParameter("price");
+        String name = request.getParameter("name");
+        String lastname = request.getParameter("lastname");
+        String birth = request.getParameter("birth");
         String password = request.getParameter("password");
         long clientAccount = Long.parseLong(request.getParameter("clientAccount"));
 

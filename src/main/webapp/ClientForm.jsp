@@ -49,7 +49,7 @@
                 </tr>
 
                 <tr>
-                    <th>Last Nmane: </th>
+                    <th>Last Nane: </th>
                     <td><input type="text" name="lastname" size="45" value="<c:out value='${client.lastname}' />"/></td>
                 </tr>
                 <tr>
