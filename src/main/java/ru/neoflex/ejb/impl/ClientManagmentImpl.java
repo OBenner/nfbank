@@ -36,17 +36,17 @@ public class ClientManagmentImpl implements ClientManagment {
     }
 
     @Override
-    public void addClient(ClientInformation client)   {
+    public void addClient(String name, String lastname, String birth, String password, long clientAccount)   {
         try {
         connect();
 
 
         PreparedStatement preparedStatement = jdbcConnection.prepareStatement("INSERT INTO clientinformation (name,lastname,birth,password,clientAccount) VALUES (?,?,?,?,?) ");
-        preparedStatement.setString(1, client.getName());
-        preparedStatement.setString(2, client.getLastname());
-        preparedStatement.setString(3, client.getBirth());
-        preparedStatement.setString(4, client.getPassword());
-        preparedStatement.setLong(5, client.getClientAccount());
+        preparedStatement.setString(1, name);
+        preparedStatement.setString(2, lastname);
+        preparedStatement.setString(3, birth);
+        preparedStatement.setString(4, password);
+        preparedStatement.setLong(5, clientAccount);
         preparedStatement.execute();
         preparedStatement.close();
         } catch (SQLException e) {
@@ -61,17 +61,17 @@ public class ClientManagmentImpl implements ClientManagment {
     }
 
     @Override
-    public void updClient(ClientInformation client) {
+    public void updClient(String name, String lastname, String birth, String password, long clientAccount,long id) {
         try {
             connect();
 
             PreparedStatement preparedStatement = jdbcConnection.prepareStatement("UPDATE clientinformation SET name=?,lastname=?,birth=?,password=?,clientAccount=? WHERE id=?");
-            preparedStatement.setString(1, client.getName());
-            preparedStatement.setString(2, client.getLastname());
-            preparedStatement.setString(3, client.getBirth());
-            preparedStatement.setString(4, client.getPassword());
-            preparedStatement.setLong(5, client.getClientAccount());
-            preparedStatement.setLong(6, client.getId());
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, lastname);
+            preparedStatement.setString(3, birth);
+            preparedStatement.setString(4, password);
+            preparedStatement.setLong(5, clientAccount);
+            preparedStatement.setLong(6, id);
             preparedStatement.execute();
             preparedStatement.close();
         } catch (SQLException e) {

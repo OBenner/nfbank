@@ -5,3 +5,5 @@ target/
 .settings/
 lib/
 out/
+.classpath
+.project

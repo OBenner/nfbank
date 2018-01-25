@@ -1,14 +1,22 @@
 package ru.neoflex.entity;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
+@XmlRootElement(name = "client")
 public class ClientInformation {
 
     private long id;
+
     private String name;
+
     private String lastname;
+
     private String birth;
+
     private String password;
+
     private long clientAccount;
 
 
@@ -38,6 +46,7 @@ public class ClientInformation {
         return id;
     }
 
+    @XmlElement
     public void setId(long id) {
         this.id = id;
     }
@@ -46,6 +55,7 @@ public class ClientInformation {
         return name;
     }
 
+    @XmlElement
     public void setName(String name) {
         this.name = name;
     }
@@ -54,6 +64,7 @@ public class ClientInformation {
         return lastname;
     }
 
+    @XmlElement
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
@@ -62,6 +73,7 @@ public class ClientInformation {
         return birth;
     }
 
+    @XmlElement
     public void setBirth(String birth) {
         this.birth = birth;
     }
@@ -70,6 +82,7 @@ public class ClientInformation {
         return password;
     }
 
+    @XmlElement
     public void setPassword(String password) {
         this.password = password;
     }
@@ -78,6 +91,7 @@ public class ClientInformation {
         return clientAccount;
     }
 
+    @XmlElement
     public void setClientAccount(long clientAccount) {
         this.clientAccount = clientAccount;
     }

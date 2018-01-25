@@ -88,8 +88,8 @@ public class Controller extends HttpServlet {
         String birth = (request.getParameter("birth"));
         String password = request.getParameter("password");
         long clientAccount = Long.parseLong(request.getParameter("clientAccount"));
-        ClientInformation client = new ClientInformation(name, lastname, birth, password, clientAccount);
-        clientManagment.addClient(client);
+      //  ClientInformation client = new ClientInformation(name, lastname, birth, password, clientAccount);
+        clientManagment.addClient(name, lastname, birth, password, clientAccount);
         response.sendRedirect("list");
     }
 
@@ -103,8 +103,8 @@ public class Controller extends HttpServlet {
         String password = request.getParameter("password");
         long clientAccount = Long.parseLong(request.getParameter("clientAccount"));
 
-        ClientInformation client = new ClientInformation(id, name, lastname, birth, password, clientAccount);
-        clientManagment.updClient(client);
+        //ClientInformation client = new ClientInformation(id, name, lastname, birth, password, clientAccount);
+        clientManagment.updClient( name,  lastname,  birth,  password,  clientAccount, id);
         response.sendRedirect("list");
     }
 
