@@ -2,10 +2,11 @@ package ru.neoflex.entity;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.util.Date;
 
 @XmlRootElement(name = "client")
-public class ClientInformation {
+public class ClientInformation implements Serializable{
 
     private long id;
 
