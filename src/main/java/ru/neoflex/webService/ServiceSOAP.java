@@ -4,6 +4,7 @@ import ru.neoflex.entity.ClientInformation;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -11,13 +12,13 @@ import java.util.List;
 public interface ServiceSOAP {
 
     @WebMethod
-    void addClient(String name, String lastname, String birth, String password, long clientAccount) throws SQLException;
+    boolean addClient(long id,String name, String lastname, String birth, String password, long clientAccount) ;
 
     @WebMethod
-    void updClient(String name, String lastname, String birth, String password, long clientAccount,long id) throws SQLException;
+    boolean updClient(long id,String name, String lastname, String birth, String password, long clientAccount);
 
     @WebMethod
-    void deleteClient(long id);
+    boolean deleteClient(long id) throws IOException;
 
     @WebMethod
     List<ClientInformation> getAllClient();

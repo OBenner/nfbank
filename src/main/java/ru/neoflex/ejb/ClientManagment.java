@@ -18,7 +18,7 @@ public interface ClientManagment {
 
     DataObject updClient(String name, String lastname, String birth, String password, long clientAccount,long id) throws SQLException, IOException;
 
-    byte[]  deleteClient(long id) throws IOException;
+    DataObject  deleteClient(long id) throws IOException;
 
-    void sendHistory(byte[] bytes, String action);
+    void sendHistory(DataObject client, String action);
 }

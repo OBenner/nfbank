@@ -56,10 +56,10 @@ public class ClientManagmentImpl implements ClientManagment {
         client.set("password", password);
         client.setString("clientaccount", String.valueOf(clientAccount));
 
-        OutputStream stream = new FileOutputStream(CH_XML);
-        XMLHelper.INSTANCE.save(cll, CH_NAMESPACE, "Client", stream);
+//        OutputStream stream = new FileOutputStream(CH_XML);
+//        XMLHelper.INSTANCE.save(cll, CH_NAMESPACE, "Client", stream);
 
-        return client;
+        return cll;
     }
 
     @Override
@@ -80,13 +80,13 @@ public class ClientManagmentImpl implements ClientManagment {
         client.setString("clientaccount", String.valueOf(clientAccount));
 
 
-        OutputStream stream = new FileOutputStream(CH_XML);
-        XMLHelper.INSTANCE.save(cll, CH_NAMESPACE, "Client", stream);
-        return client;
+//        OutputStream stream = new FileOutputStream(CH_XML);
+//        XMLHelper.INSTANCE.save(cll, CH_NAMESPACE, "Client", stream);
+        return cll;
     }
 
     @Override
-    public  byte[]  deleteClient(long id) throws IOException {
+    public  DataObject  deleteClient(long id) throws IOException {
         ClientInformation clientInformation = clientSDO.getClient(id);
 
         FileInputStream fis = new FileInputStream(CH_MODEL);
@@ -104,40 +104,27 @@ public class ClientManagmentImpl implements ClientManagment {
         client.set("password", clientInformation.getPassword());
         client.setString("clientaccount", String.valueOf(clientInformation.getClientAccount()));
 
-        OutputStream stream = new FileOutputStream(CH_XML);
-        XMLHelper.INSTANCE.save(cll, CH_NAMESPACE, "Client", stream);
+//       OutputStream stream = new FileOutputStream(CH_XML);
+//        XMLHelper.INSTANCE.save(cll, CH_NAMESPACE, "Client", stream);
 
-//        byte[] bFile = Files.readAllBytes(new File(String.valueOf(stream)).toPath());
-
-        byte[] bytesArray = new byte[(int) CH_XML.length()];
-
-        FileInputStream fileInputStream = new FileInputStream(CH_XML);
-        fileInputStream.read(bytesArray); //read file into bytes[]
-        fileInputStream.close();
-        return bytesArray;
+        return cll;
 
     }
 
 
-    public void sendHistory(byte[] bytes, String action)  {
+    public void sendHistory(DataObject client, String action)  {
         try {
 
 
             javax.jms.Connection connectionJMS = connectionFactory.createConnection();
             Session session = connectionJMS.createSession(true, Session.AUTO_ACKNOWLEDGE);
             MessageProducer producer = session.createProducer(destination);
-            StreamMessage mm = session.createStreamMessage();
-            BytesMessage bytesMessage =session.createBytesMessage();
 
-            bytesMessage.setStringProperty("action", action);
-            bytesMessage.writeBytes(bytes);
-            producer.send(bytesMessage);
-
-
-//            ObjectMessage message = session.createObjectMessage();
-//            message.setObject(client);
-//            connectionJMS.start();
-//            producer.send(message);
+            ObjectMessage message = session.createObjectMessage();
+            message.setObject(client);
+            message.setStringProperty("action",action);
+            connectionJMS.start();
+           producer.send( message);
 
         } catch (JMSException e) {
             e.printStackTrace();

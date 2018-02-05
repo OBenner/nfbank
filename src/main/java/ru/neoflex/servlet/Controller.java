@@ -65,7 +65,7 @@ public class Controller extends HttpServlet {
             throws  IOException, ServletException {
         List<ClientInformation> listClient = clientSDO.getAllClient();
         request.setAttribute("listClient", listClient);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("ClientList.jsp");
+        RequestDispatcher dispatcher =  request.getRequestDispatcher("ClientList.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -96,7 +96,7 @@ public class Controller extends HttpServlet {
         long clientAccount = Long.parseLong(request.getParameter("clientAccount"));
 
         DataObject dataObjectClient = clientManagment.addClient(id, name, lastname, birth, password, clientAccount);
-     //   clientManagment.sendHistory(dataObjectClient,"add");
+        clientManagment.sendHistory(dataObjectClient,"add");
         response.sendRedirect("list");
     }
 
@@ -111,15 +111,15 @@ public class Controller extends HttpServlet {
         long clientAccount = Long.parseLong(request.getParameter("clientAccount"));
 
         DataObject dataObjectClient = clientManagment.updClient(name, lastname, birth, password, clientAccount, id);
-       // clientManagment.sendHistory(dataObjectClient,"update");
+        clientManagment.sendHistory(dataObjectClient,"update");
         response.sendRedirect("list");
     }
 
     private void deleteClient(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
         long id = Integer.parseInt(request.getParameter("id"));
-
-        clientManagment.sendHistory(clientManagment.deleteClient(id),"delete");
+        DataObject dataObjectClient = clientManagment.deleteClient(id);
+        clientManagment.sendHistory(dataObjectClient,"delete");
         response.sendRedirect("list");
 
     }

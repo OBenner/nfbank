@@ -8,10 +8,7 @@ import ru.neoflex.ejb.ClientSDO;
 import ru.neoflex.entity.ClientInformation;
 
 import javax.ejb.Stateless;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,14 +29,14 @@ public class ClientSDOImpl implements ClientSDO {
 
     private static final String CH_MODEL = "C:\\WrkPlace\\nfbank\\cl.xsd";
     private static final String CH_NAMESPACE = "http://www.example.com/CH";
-    private static final String CH_XML = "C:\\WrkPlace\\nfbank\\cll.xml";
+    private static final String CH_XML = "C:\\WrkPlace\\nfbank\\clll.xml";
 
 
     public void connect() throws SQLException {
         if (jdbcConnection == null || jdbcConnection.isClosed()) {
             try {
                 Class.forName("oracle.jdbc.driver.OracleDriver");
-             //   Class.forName("com.mysql.jdbc.Driver");
+                //   Class.forName("com.mysql.jdbc.Driver");
             } catch (ClassNotFoundException e) {
                 throw new SQLException(e);
             }
@@ -52,30 +49,23 @@ public class ClientSDOImpl implements ClientSDO {
             jdbcConnection.close();
         }
     }
+
     @Override
     public void addClient(DataObject dataObject) {
         try {
             connect();
-            FileInputStream fis = new FileInputStream(CH_MODEL);
-            XSDHelper.INSTANCE.define(fis, null);
-            fis.close();
-
-            FileInputStream fisXml = new FileInputStream(CH_XML);
-            XMLDocument xmlDoc = XMLHelper.INSTANCE.load(fisXml);
-
-            DataObject rootObject = xmlDoc.getRootObject();
-            DataObject cli = rootObject.getDataObject("Client");
+            DataObject cli = dataObject.getDataObject("Client");
 
             long id = (int) cli.get("id");
             String name = cli.get("name").toString();
             String lastname = cli.get("lastname").toString();
             String birth = cli.get("birth").toString();
             String password = cli.get("password").toString();
-            long clientaccount =(int) cli.get("clientaccount");
+            long clientaccount = (int) cli.get("clientaccount");
 
 
             PreparedStatement preparedStatement = jdbcConnection.prepareStatement("INSERT INTO OLEG.CLIENT (id,name,lastname,birth,password,clientAccount) VALUES (?,?,?,?,?,?) ");
-          //  PreparedStatement preparedStatement = jdbcConnection.prepareStatement("INSERT INTO clientinformation(id,name,lastname,birth,password,clientAccount) VALUES (?,?,?,?,?,?) ");
+            //  PreparedStatement preparedStatement = jdbcConnection.prepareStatement("INSERT INTO clientinformation(id,name,lastname,birth,password,clientAccount) VALUES (?,?,?,?,?,?) ");
             preparedStatement.setLong(1, id);
             preparedStatement.setString(2, name);
             preparedStatement.setString(3, lastname);
@@ -87,10 +77,6 @@ public class ClientSDOImpl implements ClientSDO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         } finally {
             try {
                 disconnect();
@@ -101,28 +87,24 @@ public class ClientSDOImpl implements ClientSDO {
     }
 
     @Override
-    public void updClient(DataObject dataObject) {
+    public void updClient(DataObject dataObject) throws IOException {
         try {
             connect();
-            FileInputStream fis = new FileInputStream(CH_MODEL);
-            XSDHelper.INSTANCE.define(fis, null);
-            fis.close();
-
-            FileInputStream fisXml = new FileInputStream(CH_XML);
-            XMLDocument xmlDoc = XMLHelper.INSTANCE.load(fisXml);
-
-            DataObject rootObject = xmlDoc.getRootObject();
-            DataObject cli = rootObject.getDataObject("Client");
+//
+            DataObject cli = dataObject.getDataObject("Client");
 
             long id = (int) cli.get("id");
             String name = cli.get("name").toString();
             String lastname = cli.get("lastname").toString();
             String birth = cli.get("birth").toString();
             String password = cli.get("password").toString();
-            long clientaccount =(int) cli.get("clientaccount");
+            long clientaccount = (int) cli.get("clientaccount");
+//Создаем хмл для проверки
+//            OutputStream stream = new FileOutputStream(CH_XML);
+//            XMLHelper.INSTANCE.save(cli, CH_NAMESPACE, "Client", stream);
 
             PreparedStatement preparedStatement = jdbcConnection.prepareStatement("UPDATE OLEG.CLIENT SET name=?,lastname=?,birth=?,password=?,clientAccount=? WHERE id=?");
-          //  PreparedStatement preparedStatement = jdbcConnection.prepareStatement("UPDATE clientinformation SET name=?,lastname=?,birth=?,password=?,clientAccount=? WHERE id=?");
+            //  PreparedStatement preparedStatement = jdbcConnection.prepareStatement("UPDATE clientinformation SET name=?,lastname=?,birth=?,password=?,clientAccount=? WHERE id=?");
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastname);
             preparedStatement.setString(3, birth);
@@ -134,10 +116,6 @@ public class ClientSDOImpl implements ClientSDO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         } finally {
             try {
                 disconnect();
@@ -148,21 +126,11 @@ public class ClientSDOImpl implements ClientSDO {
     }
 
     @Override
-    public void deleteClient(byte[] bytes,String action) {
+    public void deleteClient(DataObject dataObject) {
         try {
             connect();
 
-            FileInputStream fis = new FileInputStream(CH_MODEL);
-            XSDHelper.INSTANCE.define(fis, null);
-            fis.close();
-
-            FileInputStream fisXml = new FileInputStream(String.valueOf(bytes));
-            InputStreamReader inputStreamReader = new InputStreamReader(bytes);
-            XMLDocument xmlDoc = XMLHelper.INSTANCE.load(fisXml);
-
-            DataObject rootObject = xmlDoc.getRootObject();
-            DataObject cli = rootObject.getDataObject("Client");
-
+            DataObject cli = dataObject.getDataObject("Client");
             long id = (int) cli.get("id");
 
             PreparedStatement preparedStatement = jdbcConnection.prepareStatement("DELETE  FROM OLEG.CLIENT WHERE id =?");
@@ -171,10 +139,6 @@ public class ClientSDOImpl implements ClientSDO {
             preparedStatement.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -193,7 +157,7 @@ public class ClientSDOImpl implements ClientSDO {
             connect();
             Statement statement = jdbcConnection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM OLEG.CLIENT");
-          //  ResultSet resultSet = statement.executeQuery("SELECT * FROM clientinformation");
+            //  ResultSet resultSet = statement.executeQuery("SELECT * FROM clientinformation");
             while (resultSet.next()) {
                 ClientInformation client = new ClientInformation();
                 client.setId(resultSet.getLong("id"));
@@ -226,7 +190,7 @@ public class ClientSDOImpl implements ClientSDO {
             connect();
 
             PreparedStatement preparedStatement = jdbcConnection.prepareStatement("SELECT * FROM OLEG.CLIENT WHERE id = ?");
-         //   PreparedStatement preparedStatement = jdbcConnection.prepareStatement("SELECT * FROM clientinformation WHERE id = ?");
+            //   PreparedStatement preparedStatement = jdbcConnection.prepareStatement("SELECT * FROM clientinformation WHERE id = ?");
             preparedStatement.setLong(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();

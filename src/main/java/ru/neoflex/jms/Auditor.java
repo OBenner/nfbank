@@ -5,10 +5,12 @@ import ru.neoflex.ejb.ClientManagment;
 import ru.neoflex.ejb.ClientSDO;
 import ru.neoflex.entity.ClientInformation;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
 import javax.jms.*;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 
 @MessageDriven(mappedName = "jms/Queue")
@@ -19,27 +21,27 @@ public class Auditor implements MessageListener {
     @Override
     public void onMessage(Message message) {
         try {
-         //   ObjectMessage messageSdo = (ObjectMessage) message;
-            BytesMessage messageSdo = (BytesMessage)message;
-            byte b[] = new byte[(int) messageSdo.getBodyLength()];
-            messageSdo.readBytes(b);
+            ObjectMessage messageSdo = (ObjectMessage) message;
 
             String action = messageSdo.getStringProperty("action");
+
             switch (action) {
                 case "add":
-                    clientSDO.addClient((DataObject) messageSdo);
+                    clientSDO.addClient((DataObject) messageSdo.getObject());
                     break;
                 case "update":
-                    clientSDO.updClient((DataObject) messageSdo);
+                    clientSDO.updClient((DataObject) messageSdo.getObject());
                     break;
                 case "delete":
-                    clientSDO.deleteClient(b,action);
+                    clientSDO.deleteClient((DataObject) messageSdo.getObject());
                     break;
                 default:
                     System.out.println("Exception");
                     break;
             }
         } catch (JMSException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
