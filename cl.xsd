@@ -1,0 +1,25 @@
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns="http://www.example.com/CH"
+targetNamespace="http://www.example.com/CH"
+ >
+<xsd:element name="ChangeHistiry" type="Client"/>
+
+<xsd:complexType name="Client">
+    <xsd:sequence>
+        <xsd:element name="Client" type="Action"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="Action">
+    <xsd:sequence>
+        <xsd:element type="xsd:int" name="id"/>
+        <xsd:element type="xsd:string" name="name"/>
+        <xsd:element type="xsd:string" name="lastname"/>
+        <xsd:element type="xsd:string" name="birth"/>
+        <xsd:element type="xsd:string" name="password"/>
+        <xsd:element type="xsd:int" name="clientaccount"/>
+    </xsd:sequence>
+    <xsd:attribute type="xsd:string" name="action"/>
+</xsd:complexType>
+
+</xsd:schema>

@@ -40,9 +40,13 @@
                         </c:if>
                     </h2>
                 </caption>
-                <c:if test="${client != null}">
+               <!-- <c:if test="${client != null}">
                     <input type="hidden" name="id" value="<c:out value='${client.id}' />" />
-                </c:if>
+                </c:if>-->
+                <tr>
+                    <th>Id: </th>
+                    <td><input type="text" name="id" size="45" value="<c:out value='${client.id}' />"/></td>
+                </tr>
                 <tr>
                     <th>Name: </th>
                     <td><input type="text" name="name" size="45" value="<c:out value='${client.name}' />"/></td>
